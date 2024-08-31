@@ -1,7 +1,5 @@
 using NumberSortingApi.Services;
 using NumberSortingApi.Services.SortingStrategies;
-using NumberSortingApi.Utils;
-using NumberSortingApi.Validation;
 
 namespace NumberSortingApi.Handlers;
 
@@ -17,33 +15,24 @@ public class NumberSortingHandler : INumberSortingHandler
         _configuration = configuration;
         _fileService = fileService;
     }
-
-    public async Task HandleNumberSortingAsync(string body)
-    {
-        var numbers = SortingRequestBodyParser.Parse(body);
-        SortingRequestValidator.Validate(numbers);
-
-        ResolveSortingStrategy();
-        var sortedNumbers = _sortingService.Sort(numbers);
-
-        await _fileService.WriteToFileAsync(sortedNumbers);
-    }
     
-    public async Task HandleNumberSortingAsync(List<int> numbers)
+    public async Task HandleNumberSorting(IList<int> numbers)
     {
         ResolveSortingStrategy();
         var sortedNumbers = _sortingService.Sort(numbers);
 
-        await _fileService.WriteToFileAsync(sortedNumbers);
+        await _fileService.WriteAsync(sortedNumbers);
     }
 
     private void ResolveSortingStrategy()
     {
-        var sortingMethod = _configuration.GetValue<string>("SortingMethod") ?? "Default";
+        var sortingMethod = _configuration["SortingMethod"] ?? "Default";
         ISortingStrategy sortingStrategy = sortingMethod switch
         {
-            "SelectionSort" => new SelectionSortStrategy(),
-            "BubbleSort" => new BubbleSortStrategy(),
+            Strategies.SelectionSort => new SelectionSortStrategy(),
+            Strategies.BubbleSort => new BubbleSortStrategy(),
+            Strategies.QuickSort => new QuickSortStrategy(),
+            Strategies.MergeSort => new MergeSortStrategy(),
             _ => new SelectionSortStrategy()
         };
 

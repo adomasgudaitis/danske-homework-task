@@ -1,5 +1,3 @@
-using NumberSortingApi.Exceptions;
-
 namespace NumberSortingApi.Services;
 
 public class FileService : IFileService
@@ -17,57 +15,28 @@ public class FileService : IFileService
             throw new KeyNotFoundException("Result:DirectoryName and Result:FileName are required.");
         }
 
-        _directoryPath = Directory
-            .CreateDirectory(Path.Combine(AppContext.BaseDirectory,
-                directoryName))
-            .FullName;
+        _directoryPath = Path.Combine(AppContext.BaseDirectory, directoryName);
         _fileName = fileName;
     }
-    
-    public async Task WriteToFileAsync(IList<int> numbers)
-    {
-        try
-        {
-            if (!Directory.Exists(_directoryPath))
-            {
-                Directory.CreateDirectory(_directoryPath);
-            }
 
-            await using var writer = new StreamWriter(Path.Combine(_directoryPath, _fileName));
-            foreach (var number in numbers)
-            {
-                await writer.WriteLineAsync(number.ToString());
-            }
-        }
-        catch (Exception e)
+    public async Task WriteAsync(IList<int> numbers)
+    {
+        if (!Directory.Exists(_directoryPath))
         {
-            throw new FileProcessingException(e.Message);
+            Directory.CreateDirectory(_directoryPath);
         }
+
+        await File.WriteAllTextAsync(Path.Combine(_directoryPath, _fileName), string.Join(' ', numbers));
     }
 
-    public async Task<IList<int>> ReadFromFileAsync()
+    public async Task<string> ReadAsync()
     {
-        var numbers = new List<int>();
         var filePath = Path.Combine(_directoryPath, _fileName);
         if (!File.Exists(filePath))
         {
-            return numbers;
+            return string.Empty;
         }
 
-        try
-        {
-            using var reader = new StreamReader(Path.Combine(_directoryPath, _fileName));
-            string? line;
-            while ((line = await reader.ReadLineAsync()) != null)
-            {
-                numbers.Add(int.Parse(line));
-            }
-
-            return numbers;
-        }
-        catch (Exception e)
-        {
-            throw new FileProcessingException(e.Message);
-        }
+        return await File.ReadAllTextAsync(Path.Combine(_directoryPath, _fileName));
     }
 }

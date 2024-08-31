@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace NumberSortingApi.Exceptions.Handlers;
+namespace NumberSortingApi.Exceptions;
 
 public class GlobalExceptionHandler : IExceptionHandler
 {

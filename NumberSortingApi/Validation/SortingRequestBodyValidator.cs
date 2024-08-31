@@ -2,7 +2,7 @@ namespace NumberSortingApi.Validation;
 
 public static class SortingRequestBodyValidator
 {
-    public static bool TryParseAndValidate(string? body, out List<int> numbers)
+    public static bool TryParseAndValidate(string? body, out IList<int> numbers)
     {
         numbers = [];
         if (string.IsNullOrWhiteSpace(body))

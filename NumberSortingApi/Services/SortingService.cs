@@ -16,9 +16,9 @@ public class SortingService : ISortingService
     {
         if (_sortingStrategy == null)
         {
-            throw new NullReferenceException();
+            throw new InvalidOperationException("SortingStrategy is not set.");
         }
 
-        return _sortingStrategy.Execute(numbers);
+        return _sortingStrategy.Execute(numbers.ToArray());
     }
 }

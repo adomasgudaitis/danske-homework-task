@@ -1,5 +1,6 @@
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
 using NumberSortingApi.Exceptions;
-using NumberSortingApi.Exceptions.Handlers;
 using NumberSortingApi.Handlers;
 using NumberSortingApi.Services;
 using NumberSortingApi.Validation;
@@ -12,7 +13,6 @@ builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<INumberSortingHandler, NumberSortingHandler>();
 
 // Add exception handlers
-builder.Services.AddExceptionHandler<FileProcessingExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -30,34 +30,50 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapPost("/sort", async (string body, INumberSortingHandler handler) =>
+// POST
+app.MapPost("/sort", async (INumberSortingHandler handler, HttpContext context) =>
     {
-        var isValid = SortingRequestBodyValidator.TryParseAndValidate(body, out var numbers);
+        var requestBody = await new StreamReader(context.Request.Body).ReadToEndAsync();
+        var isValid = SortingRequestBodyValidator.TryParseAndValidate(requestBody, out var numbers);
         if (!isValid)
         {
             return Results.BadRequest("Invalid request body.");
         }
 
-        await handler.HandleNumberSortingAsync(numbers);
+        await handler.HandleNumberSorting(numbers);
 
         return Results.NoContent();
     })
-    .WithOpenApi()
+    .WithOpenApi(operation =>
+    {
+        operation.RequestBody = new OpenApiRequestBody
+            {
+                Content = new Dictionary<string, OpenApiMediaType>
+                {
+                    ["text/plain"] = new()
+                    {
+                        Schema = new OpenApiSchema
+                        {
+                            Type = "string",
+                            Example = new OpenApiString("4 1 2 3 5 9")
+                        }
+                    }
+                }
+            };
+        return operation;
+    })
     .WithName("SortNumbers")
     .Produces(StatusCodes.Status204NoContent)
     .ProducesValidationProblem();
 
+// GET
 app.MapGet("/sort", async (IFileService fileService) =>
     {
-        var numbers = await fileService.ReadFromFileAsync();
-        if (numbers.Count == 0)
-        {
-            return Results.NotFound("The sorting result was not found.");
-        }
-
-        return SortingResponseValidator.IsValid(numbers)
-            ? Results.Ok(numbers)
-            : Results.Problem("An error occured while processing the request.");
+        var result = await fileService.ReadAsync();
+        
+        return string.IsNullOrWhiteSpace(result)
+            ? Results.NotFound("The sorting result was not found.")
+            : Results.Text(result);
     })
     .WithOpenApi()
     .WithName("RetrieveSortedNumbers")
@@ -67,3 +83,5 @@ app.MapGet("/sort", async (IFileService fileService) =>
 app.UseHttpsRedirection();
 
 app.Run();
+
+public partial class Program { }

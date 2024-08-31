@@ -1,6 +1,6 @@
 @NumberSortingApi_HostAddress = http://localhost:5196
 
-GET {{NumberSortingApi_HostAddress}}/weatherforecast/
+GET {{NumberSortingApi_HostAddress}}/sort/
 Accept: application/json
 
 ###

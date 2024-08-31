@@ -1,28 +1,26 @@
-
 namespace NumberSortingApi.Services.SortingStrategies;
 
 public class SelectionSortStrategy : ISortingStrategy
 {
     public string Name => "SelectionSort";
 
-    public IList<int> Execute(IList<int> numbers)
+    public int[] Execute(int[] numbers)
     {
-        var n = numbers.Count;
-        var numbersArray = numbers.ToArray();
+        var n = numbers.Length;
 
         for (var i = 0; i < n - 1; i++)
         {
             var minIdx = i;
             for (var j = i + 1; j < n; j++)
             {
-                if (numbersArray[j] < numbersArray[minIdx])
+                if (numbers[j] < numbers[minIdx])
                 {
                     minIdx = j;
                 }
             }
-            (numbersArray[minIdx], numbersArray[i]) = (numbersArray[i], numbersArray[minIdx]);
+            (numbers[minIdx], numbers[i]) = (numbers[i], numbers[minIdx]);
         }
 
-        return numbersArray;
+        return numbers;
     }
 }

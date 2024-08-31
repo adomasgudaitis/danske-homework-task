@@ -4,10 +4,9 @@ public class BubbleSortStrategy : ISortingStrategy
 {
     public string Name => "BubbleSort";
 
-    public IList<int> Execute(IList<int> numbers)
+    public int[] Execute(int[] numbers)
     {
-        var n = numbers.Count;
-        var numbersArr = numbers.ToArray();
+        var n = numbers.Length;
         bool swapped;
 
         for (var i = 0; i < n - 1; i++)
@@ -15,9 +14,9 @@ public class BubbleSortStrategy : ISortingStrategy
             swapped = false;
             for (var j = 0; j < n - i - 1; j++)
             {
-                if (numbersArr[j] > numbersArr[j + 1])
+                if (numbers[j] > numbers[j + 1])
                 {
-                    (numbersArr[j], numbersArr[j + 1]) = (numbersArr[j + 1], numbersArr[j]);
+                    (numbers[j], numbers[j + 1]) = (numbers[j + 1], numbers[j]);
                     swapped = true;
                 }
             }
@@ -25,6 +24,6 @@ public class BubbleSortStrategy : ISortingStrategy
             if (!swapped) break;
         }
 
-        return numbersArr;
+        return numbers;
     }
 }
