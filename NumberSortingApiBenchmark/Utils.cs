@@ -4,16 +4,16 @@ namespace NumberSortingApiBenchmark;
 
 public static class Utils
 {
-    public static int[] GenerateRandomListOfNumbers(int size)
+    public static IList<int> GenerateRandomListOfNumbers(int size)
     {
         const int minValue = 1;
         const int maxValue = 100000;
-        var numbers = new int[size];
+        var numbers = new List<int>();
         var random = new Random();
 
         for (var i = 0; i < size; i++)
         {
-            numbers[i] = random.Next(minValue, maxValue + 1);
+            numbers.Add(random.Next(minValue, maxValue + 1));
         }
 
         return numbers;
