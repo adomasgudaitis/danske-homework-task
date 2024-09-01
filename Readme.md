@@ -29,7 +29,7 @@ Sorting algorithms used in the solution:
 - Quick sort
 
 ### Selection Sort
-The time complexity of Selection Sort is O(N^2). There is the table presenting performance measurements with various sizes of arrays:
+The time complexity of Selection Sort is O(N^2). The table below presents performance measurements for different array sizes:
 
 | Array Size (N) | Elapsed Time (ms) |
 |---------------:|-------------------|
@@ -42,7 +42,7 @@ The time complexity of Selection Sort is O(N^2). There is the table presenting p
 
 ### Bubble Sort
 
-The time complexity of Bubble Sort is O(N^2). There is the table presenting performance measurements with various sizes of arrays:
+The time complexity of Bubble Sort is O(N^2). The table below presents performance measurements for different array sizes:
 
 | Array Size (N) | Elapsed Time (ms) |
 |----------------|-------------------|
@@ -55,7 +55,7 @@ The time complexity of Bubble Sort is O(N^2). There is the table presenting perf
 
 ### Quick Sort
 
-The time complexity of Quick Sort is O(N*logN) in the average and the best cases, and O(N^2) in the worst case. There is the table presenting performance measurements with various sizes of arrays:
+The time complexity of Quick Sort is O(N*logN) in the average and the best cases, and O(N^2) in the worst case. The table below presents performance measurements for different array sizes:
 
 | Size of Array (n) | Elapsed Time (ms) |
 |-------------------|-------------------|
@@ -68,11 +68,11 @@ The time complexity of Quick Sort is O(N*logN) in the average and the best cases
 
 ### Merge Sort
 
-The time complexity of Merge Sort is O(N*logN). There is the table presenting performance measurements with various sizes of arrays:
+The time complexity of Merge Sort is O(N*logN). The table below presents performance measurements for different array sizes:
 
 | Size of Array (n) | Elapsed Time (ms) |
 |-------------------|-------------------|
-| 1000              | 0                 |
+| 1000              | less than 1       |
 | 10000             | 1                 |
 | 15000             | 2                 |
 | 20000             | 2                 |
