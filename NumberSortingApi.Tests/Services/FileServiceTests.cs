@@ -63,9 +63,9 @@ public class FileServiceTests : IDisposable
     public async Task ReadAsync_ReadsNumbersFromFile()
     {
         // Arrange
-        var numbers = new List<string> { "1", "2", "3", "4", "5" };
+        var numbers = "1 2 3 4 5";
         Directory.CreateDirectory(DirectoryName);
-        await File.WriteAllLinesAsync(Path.Combine(DirectoryName, FileName), numbers);
+        await File.WriteAllTextAsync(Path.Combine(DirectoryName, FileName), numbers);
         
         var fileService = new FileService(_configurationMock.Object);
 
@@ -73,7 +73,7 @@ public class FileServiceTests : IDisposable
         var result = await fileService.ReadAsync();
         
         // Assert
-        // Assert.Equal(new List<int> { 1, 2, 3, 4, 5 }, result);
+        Assert.Equal("1 2 3 4 5", result);
     }
 
     [Fact]
