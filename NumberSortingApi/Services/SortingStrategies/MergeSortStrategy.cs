@@ -3,19 +3,20 @@ namespace NumberSortingApi.Services.SortingStrategies;
 public class MergeSortStrategy : ISortingStrategy
 {
     public string Name => "MergeSort";
+
     public int[] Execute(int[] numbers)
     {
         var n = numbers.Length;
 
-        MergeSort(numbers, 0, n- 1);
+        MergeSort(numbers, 0, n - 1);
 
         return numbers;
     }
-    
+
     // Merges two subarrays of []arr.
     // First subarray is arr[l..m]
     // Second subarray is arr[m+1..r]
-    static void Merge(int[] arr, int l, int m, int r)
+    private static void Merge(int[] arr, int l, int m, int r)
     {
         // Find sizes of two
         // subarrays to be merged
@@ -43,21 +44,26 @@ public class MergeSortStrategy : ISortingStrategy
         // Initial index of merged
         // subarray array
         var k = l;
-        while (i < n1 && j < n2) {
-            if (L[i] <= R[j]) {
+        while (i < n1 && j < n2)
+        {
+            if (L[i] <= R[j])
+            {
                 arr[k] = L[i];
                 i++;
             }
-            else {
+            else
+            {
                 arr[k] = R[j];
                 j++;
             }
+
             k++;
         }
 
         // Copy remaining elements
         // of L[] if any
-        while (i < n1) {
+        while (i < n1)
+        {
             arr[k] = L[i];
             i++;
             k++;
@@ -65,7 +71,8 @@ public class MergeSortStrategy : ISortingStrategy
 
         // Copy remaining elements
         // of R[] if any
-        while (j < n2) {
+        while (j < n2)
+        {
             arr[k] = R[j];
             j++;
             k++;
@@ -75,10 +82,10 @@ public class MergeSortStrategy : ISortingStrategy
     // Main function that
     // sorts arr[l..r] using
     // merge()
-    static void MergeSort(int[] arr, int l, int r)
+    private static void MergeSort(int[] arr, int l, int r)
     {
-        if (l < r) {
-
+        if (l < r)
+        {
             // Find the middle point
             var m = l + (r - l) / 2;
 

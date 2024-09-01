@@ -18,6 +18,7 @@ public class SelectionSortStrategy : ISortingStrategy
                     minIdx = j;
                 }
             }
+
             (numbers[minIdx], numbers[i]) = (numbers[i], numbers[minIdx]);
         }
 

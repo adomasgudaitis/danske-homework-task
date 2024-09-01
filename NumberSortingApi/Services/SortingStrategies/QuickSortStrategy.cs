@@ -3,7 +3,7 @@ namespace NumberSortingApi.Services.SortingStrategies;
 public class QuickSortStrategy : ISortingStrategy
 {
     public string Name => "QuickSort";
-    
+
     public int[] Execute(int[] numbers)
     {
         var n = numbers.Length;
@@ -30,21 +30,22 @@ public class QuickSortStrategy : ISortingStrategy
 
         // Index of smaller element and indicates
         // the right position of pivot found so far
-        var i = (low - 1);
+        var i = low - 1;
 
-        for (var j = low; j <= high - 1; j++) {
-
+        for (var j = low; j <= high - 1; j++)
+        {
             // If current element is smaller than the pivot
-            if (arr[j] < pivot) {
-
+            if (arr[j] < pivot)
+            {
                 // Increment index of smaller element
                 i++;
                 Swap(arr, i, j);
             }
         }
+
         Swap(arr, i + 1, high);
 
-        return (i + 1);
+        return i + 1;
     }
 
     // The main function that implements QuickSort
@@ -53,8 +54,8 @@ public class QuickSortStrategy : ISortingStrategy
     // high --> Ending index
     private static void QuickSort(int[] arr, int low, int high)
     {
-        if (low < high) {
-
+        if (low < high)
+        {
             // pi is partitioning index, arr[p]
             // is now at right place
             var pi = Partition(arr, low, high);
